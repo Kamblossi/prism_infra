@@ -1,28 +1,34 @@
+
 # PrismERP Infrastructure
 
-This repository contains infrastructure-as-code, operational scripts, environment definitions, and runbooks for PrismERP.
+Current runtime target: AWS.
 
-## Current foundation
+The active PrismERP runtime is hosted on AWS EC2, not Azure.
 
-- Cloud provider: Microsoft Azure
-- Region: South Africa North
-- VM: erp-dev-server
-- OS: Ubuntu 24.04 LTS
-- Runtime: Docker Engine and Docker Compose
-- Edge/DNS: Cloudflare
+Production URL:
+- https://erp.prismtechco.com
 
-## Current role
+Fallback/dev URL:
+- https://aws-dev-erp.prismtechco.com
 
-The current VM is a development/staging Docker node.
+Current AWS runtime summary:
+- EC2 host
+- Docker Compose project: prism-aws-dev
+- Caddy terminates HTTPS
+- Frappe frontend is bound to 127.0.0.1:8080
+- Internal Frappe site name: aws-dev-erp.localhost
+- Apps installed: frappe, erpnext, prism_brand, prism_saas
 
-It is not yet the final production architecture.
+This repository is intended to hold:
+- Docker Compose templates
+- Environment examples
+- Infrastructure scripts
+- Cloud-specific notes
+- Terraform/IaC later
+- Caddy examples
+- Backup deployment scripts
+- Monitoring setup
 
-## Future production architecture
-
-- Docker app node
-- Dedicated MariaDB database node
-- Redis
-- Backup storage
-- Monitoring and logging
-- CI/CD pipeline
-- Hardened network boundaries
+Azure content:
+Any Azure-related files or notes are historical unless explicitly marked otherwise.
+Do not use Azure docs as the active runtime guide for PrismERP.
