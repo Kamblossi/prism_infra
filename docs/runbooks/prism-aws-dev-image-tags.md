@@ -2,16 +2,16 @@
 
 ## Current runtime image
 
-As of 2026-06-11, the PrismERP AWS development/runtime stack uses:
+As of 2026-06-12, the PrismERP AWS development/runtime stack uses:
 
 ```text
-prismerp:erpnext-16.15.1-frappe-version-16-aws-002
+prismerp:erpnext-16.15.1-frappe-version-16-aws-009
 ```
 
 Image ID:
 
 ```text
-sha256:49295d9f44b2e47b6efc6781041d580ca6957ae9f03d4708902ab24b567c6d52
+sha256:786a66e75f60674817cd319c73ab75140aa614e1c524fdc2cc1c9b99b618b2e3
 ```
 
 ## Compose command
