@@ -426,3 +426,68 @@ Prohibited actions not performed
 • No Docker prune
 • No force push
 • No README.md modification
+
+## 2026-06-29 - aws-012 manual tenant workflow checkpoint
+
+Runtime target: AWS prism-aws-dev.
+
+Image promoted:
+- prismerp:erpnext-16.15.1-frappe-version-16-aws-012
+- Image ID: f1879590e06a
+
+Source checkpoint:
+- prism_saas commit: b5d24f8 Add manual tenant request conversion workflow
+
+What changed:
+- Added safe manual Tenant Request approval/conversion workflow.
+- Added Prism Tenant Request approval helper.
+- Added conversion path:
+  - Prism Tenant Request
+  - Prism Tenant
+  - Prism Tenant Domain
+  - Prism Tenant Member
+  - Prism Provisioning Job
+  - Prism Provisioning Step rows
+  - Prism Tenant Lifecycle Event rows
+- Fixed DocType autoname patterns:
+  - TREQ-{#####}
+  - TDOM-{#####}
+  - TMEM-{#####}
+  - PJOB-{#####}
+  - LEV-{#####}
+
+Safety boundary:
+- This milestone only creates Prism SaaS control-plane records.
+- It does not run bench new-site.
+- It does not create tenant Frappe sites.
+- It does not change Caddy.
+- It does not change DNS.
+- It does not install apps on tenant sites.
+
+Deployment validation:
+- aws-012 image source validation: PASS
+- autoname validation: PASS
+- Python compile validation: PASS
+- deployed rollback workflow test: PASS
+- rollback cleanup: PASS
+- final deployed result: DEPLOYED_AWS012_RESULT=PASS
+
+Promotion notes:
+- Pre-promotion backup completed:
+  - 20260629_185912-aws-dev-erp_localhost-site_config_backup.json
+  - 20260629_185912-aws-dev-erp_localhost-database.sql.gz
+  - 20260629_185912-aws-dev-erp_localhost-files.tar
+  - 20260629_185912-aws-dev-erp_localhost-private-files.tar
+- App services promoted to aws-012:
+  - backend
+  - frontend
+  - websocket
+  - queue-short
+  - queue-long
+  - scheduler
+- DB and Redis were not recreated:
+  - mariadb:11.8 remained up
+  - redis:8.6-alpine cache/queue remained up
+
+Next milestone:
+- Add Desk buttons/client UX for approving and converting Tenant Requests, or proceed to dry-run provisioning job execution logic.
