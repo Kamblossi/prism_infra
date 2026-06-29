@@ -491,3 +491,78 @@ Promotion notes:
 
 Next milestone:
 - Add Desk buttons/client UX for approving and converting Tenant Requests, or proceed to dry-run provisioning job execution logic.
+
+## 2026-06-29 - aws-013 Tenant Request Desk workflow checkpoint
+
+Runtime target: AWS prism-aws-dev.
+
+Image promoted:
+- prismerp:erpnext-16.15.1-frappe-version-16-aws-013
+- Image ID: 619571a8a702
+
+Source checkpoint:
+- prism_saas commit: 3e1bb22 Add Tenant Request desk workflow buttons
+
+What changed:
+- Added Desk client buttons on Prism Tenant Request:
+  - Approve
+  - Convert to Tenant
+  - Approve and Convert
+  - Open Tenant
+- Buttons call the already-tested Prism SaaS backend workflow.
+- UI confirms that the workflow is control-plane only and does not create a tenant site.
+
+Deployment validation:
+- aws-013 image client script validation: PASS
+- backend workflow validation: PASS
+- autoname validation: PASS
+- Python compile validation: PASS
+- image result: IMAGE_AWS013_VALIDATION=PASS
+- browser validation: PASS
+  - Created TREQ-00001
+  - Converted request to tenant testco
+  - Open Tenant button visible
+
+Test tenant control-plane record:
+- Tenant Request: TREQ-00001
+- Tenant: testco
+- Primary domain: testco-erp.prismtechco.com
+- Tenant Domain: TDOM-00002
+- Tenant Member: TMEM-00003
+- Provisioning Job: PJOB-00004
+- Provisioning Steps: 9 pending steps
+- Lifecycle Events:
+  - LEV-00005 Tenant Created
+  - LEV-00006 Provisioning Job Queued
+  - LEV-00007 Tenant Request Converted
+
+Current tenant state:
+- Prism Tenant status: Provisioning Queued
+- Prism Provisioning Job status: Queued
+- All provisioning steps: Pending
+
+Safety boundary:
+- aws-013 still does not run bench new-site.
+- aws-013 does not create tenant ERP sites.
+- aws-013 does not change Caddy or DNS.
+- aws-013 only creates and manages Prism SaaS control-plane records.
+
+Promotion notes:
+- Pre-promotion backup completed:
+  - 20260629_194655-aws-dev-erp_localhost-site_config_backup.json
+  - 20260629_194655-aws-dev-erp_localhost-database.sql.gz
+  - 20260629_194655-aws-dev-erp_localhost-files.tar
+  - 20260629_194655-aws-dev-erp_localhost-private-files.tar
+- App services promoted to aws-013:
+  - backend
+  - frontend
+  - websocket
+  - queue-short
+  - queue-long
+  - scheduler
+- DB and Redis were not recreated:
+  - mariadb:11.8 remained up
+  - redis:8.6-alpine cache/queue remained up
+
+Next milestone:
+- Build dry-run provisioning executor for queued Prism Provisioning Jobs.
