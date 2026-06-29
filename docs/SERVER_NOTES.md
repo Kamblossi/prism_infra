@@ -330,3 +330,99 @@ Milestone: Prism SaaS Admin Workspace deployed and verified on aws-009.
 - No Docker prune
 - No force push
 - No README.md modification
+
+2026-06-29 Prism SaaS Admin Workspace – aws-011 checkpoint
+Milestone: Prism SaaS Admin Workspace fully exposed and rendering correctly on aws-011.
+Current runtime image
+• Tag: prismerp:erpnext-16.15.1-frappe-version-16-aws-011
+• Image ID: 6bfad23c219b
+• Source commit: 6520980 (prism_saas main)
+• Previous runtime image: aws-010
+Runtime target
+• Site: aws-dev-erp.localhost
+• Public URL: https://erp.prismtechco.com
+• Prism SaaS Admin route: https://erp.prismtechco.com/desk/prism-saas-admin
+• Compose project: prism-aws-dev
+• Compose file: /opt/prismerp/gitops/prism-aws-dev/compose/docker-compose.yml
+Build log
+• /opt/prismerp/logs/builds/prismerp-image-build-aws-011-20260629T132342Z.log
+Pre-promotion backup
+• 20260629_163458-aws-dev-erp_localhost-database.sql.gz
+• 20260629_163458-aws-dev-erp_localhost-files.tar
+• 20260629_163458-aws-dev-erp_localhost-private-files.tar
+• 20260629_163458-aws-dev-erp_localhost-site_config_backup.json
+Fixes completed across aws-010 and aws-011
+• Workspace route corrected to /desk/prism-saas-admin
+• Workspace made public
+• Workspace linked to prism_saas
+• Workspace roles added:
+o Prism Platform Admin
+o Prism Operations Manager
+o Prism Support User
+o Prism Billing User
+o Prism Read Only
+• Frappe v16 Workspace content layout added
+• Eight Workspace shortcuts render in browser:
+o Platform Settings
+o Tenant Plans
+o Tenant Requests
+o Tenants
+o Tenant Domains
+o Tenant Members
+o Provisioning Jobs
+o Lifecycle Events
+Verification
+Live Workspace verification passed:
+• PUBLIC=1
+• IS_HIDDEN=0
+• APP='prism_saas'
+• CONTENT_LENGTH=919
+• CONTENT_BLOCKS=9
+• SHORTCUT_TABLE_COUNT=8
+• VERIFY_RESULT=PASS
+Browser verification passed:
+• /desk/prism-saas-admin opens
+• Workspace cards render correctly
+• Prism SaaS Admin appears in the Desk sidebar
+Services reconciled
+• backend
+• frontend
+• websocket
+• queue-short
+• queue-long
+• scheduler
+Services intentionally untouched
+• db
+• redis-cache
+• redis-queue
+Migration result
+• Command: bench --site aws-dev-erp.localhost migrate
+• Result: successful
+• Non-fatal warning observed:
+/home/frappe/frappe-bench/apps/prism_saas/prism_saas/fixtures/role.json missing
+Correction to aws-009 checkpoint status
+The aws-009 checkpoint delivered the Workspace record and shortcuts, but the browser milestone was
+not complete because the Workspace was not visible/rendering correctly in Desk. The complete verified
+browser milestone is aws-011.
+Remaining SaaS work
+• Tenant Request approval workflow
+• Tenant record creation workflow
+• Provisioning Job execution logic
+• Provisioning Step logs
+• Dry-run provisioning
+• Real tenant site provisioning
+• Tenant admin creation
+• Tenant domain setup
+• Tenant lifecycle event automation
+• Tenant backup/restore tracking
+• Clerk/public signup
+• Billing integration
+Prohibited actions not performed
+• No tenant provisioning
+• No tenant sites created
+• No Caddy/site_config changes
+• No DB/Redis recreation
+• No volume deletion
+• No Docker prune
+• No force push
+• No README.md modification
