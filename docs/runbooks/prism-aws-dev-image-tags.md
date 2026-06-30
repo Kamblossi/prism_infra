@@ -39,3 +39,13 @@ prism_saas:
 Latest checkpoint
 See:
 docs/runbooks/aws-013-checkpoint.md
+
+## aws-014 - Dry-run provisioning executor
+
+- Image: `prismerp:erpnext-16.15.1-frappe-version-16-aws-014`
+- Image ID: `ee1553732674`
+- Build log: `/opt/prismerp/logs/builds/prismerp-image-build-aws-014-20260630T050924Z.log`
+- Source commit: `prism_saas d59e4fd Add dry-run provisioning job executor`
+- Runtime result: app services promoted to `aws-014`; DB and Redis remained unchanged.
+- Verification: `IMAGE_AWS014_VALIDATION=PASS`, `DEPLOYED_AWS014_RESULT=PASS`, `TESTCO_AFTER_DRY_RUN_RESULT=PASS`.
+- Dry-run result: `PJOB-00004` succeeded in dry-run mode; no tenant site was created; `testco` remained `Provisioning Queued`.

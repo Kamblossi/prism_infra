@@ -566,3 +566,62 @@ Promotion notes:
 
 Next milestone:
 - Build dry-run provisioning executor for queued Prism Provisioning Jobs.
+
+## 2026-06-30 - aws-014 Dry-run provisioning executor checkpoint
+
+Prism AWS dev was promoted from `aws-013` to `aws-014`.
+
+Runtime:
+- Compose project: `prism-aws-dev`
+- Site: `aws-dev-erp.localhost`
+- Public URL: `https://erp.prismtechco.com`
+- App image: `prismerp:erpnext-16.15.1-frappe-version-16-aws-014`
+- Image ID: `ee1553732674`
+- Build log: `/opt/prismerp/logs/builds/prismerp-image-build-aws-014-20260630T050924Z.log`
+
+Source:
+- `prism_saas` commit: `d59e4fd Add dry-run provisioning job executor`
+- `prism_infra` previous checkpoint: `88c9e86 Document aws-013 tenant request desk workflow checkpoint`
+
+Deployment:
+- App services promoted to `aws-014`: backend, frontend, websocket, queue-short, queue-long, scheduler.
+- Persistent services were unchanged: MariaDB `mariadb:11.8`, Redis cache, Redis queue.
+- Migration completed successfully.
+- Existing non-fatal warning remained: `prism_saas/prism_saas/fixtures/role.json missing`.
+
+Backups:
+- Pre-aws-014 deployment backup:
+  - `20260630_081823-aws-dev-erp_localhost-site_config_backup.json`
+  - `20260630_081823-aws-dev-erp_localhost-database.sql.gz`
+  - `20260630_081823-aws-dev-erp_localhost-files.tar`
+  - `20260630_081823-aws-dev-erp_localhost-private-files.tar`
+- Pre-dry-run execution backup:
+  - `20260630_082417-aws-dev-erp_localhost-site_config_backup.json`
+  - `20260630_082417-aws-dev-erp_localhost-database.sql.gz`
+  - `20260630_082417-aws-dev-erp_localhost-files.tar`
+  - `20260630_082417-aws-dev-erp_localhost-private-files.tar`
+
+Dry-run provisioning result:
+- Tenant: `testco`
+- Tenant Request: `TREQ-00001`
+- Provisioning Job: `PJOB-00004`
+- Job status after dry-run: `Succeeded`
+- Worker ID: `prism-saas-dry-run`
+- Attempt count: `1`
+- Tenant status after dry-run: `Provisioning Queued`
+- Tenant was deliberately not marked `Active`.
+- Primary domain remained `Pending DNS`.
+- All 9 provisioning steps were marked `Succeeded` with `[DRY RUN]` safety messages.
+- Lifecycle events added:
+  - `LEV-00008` Dry Run Provisioning Started
+  - `LEV-00009` Dry Run Provisioning Succeeded
+
+Safety boundary:
+- No tenant site was created.
+- No `bench new-site` command was executed.
+- No Caddy configuration was changed.
+- No DNS record was changed.
+- No tenant `site_config.json` was changed.
+
+Next milestone:
+- Build the real provisioning executor, starting with a controlled single-tenant path for `testco`.
