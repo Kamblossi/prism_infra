@@ -625,3 +625,32 @@ Safety boundary:
 
 Next milestone:
 - Build the real provisioning executor, starting with a controlled single-tenant path for `testco`.
+
+## 2026-06-30 - Hostname-based Frappe routing enabled before real tenant provisioning
+
+The AWS PrismERP dev frontend was changed from a fixed Frappe site header to hostname-based routing.
+
+Previous frontend behavior:
+- `FRAPPE_SITE_NAME_HEADER=aws-dev-erp.localhost`
+- All incoming hostnames were forced to the control site.
+
+New frontend behavior:
+- `FRAPPE_SITE_NAME_HEADER=$host`
+- Nginx now sends `X-Frappe-Site-Name $host` to the backend.
+
+Control-site symlinks added in the Frappe sites volume:
+- `erp.prismtechco.com -> aws-dev-erp.localhost`
+- `aws-dev-erp.prismtechco.com -> aws-dev-erp.localhost`
+
+Verification:
+- `erp.prismtechco.com` returned HTTP 200 locally through the frontend.
+- `aws-dev-erp.prismtechco.com` returned HTTP 200 locally through the frontend.
+- `testco-erp.prismtechco.com` returned HTTP 404 because the tenant site does not exist yet.
+- The HTTP 404 result confirms hostname routing is active.
+- `testco-erp.prismtechco.com` site folder was not created.
+- Frontend remains bound to `127.0.0.1:8080`, not publicly exposed.
+
+Remaining before public tenant access:
+- Add DNS for `testco-erp.prismtechco.com`.
+- Add Caddy route for `testco-erp.prismtechco.com`.
+- Create the actual Frappe tenant site through the real provisioning executor.
